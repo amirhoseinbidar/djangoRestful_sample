@@ -1,1 +1,0 @@
-# djangoRestfull_sample
