@@ -132,3 +132,20 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR =os.path.dirname(PROJECT_DIR)
+STATICFILES_FINDER = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.appDirectoriesFinder',
+]
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR,'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+STATIC_URL = '/static/'
