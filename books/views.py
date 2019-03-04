@@ -12,6 +12,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from .serializers import (BookSerializer , AuthorSerializer 
     , PublisherSerializer , VoteSerializer , UserSerializer)
+from rest_framework.exceptions import ParseError
 
 class BookList(generics.ListCreateAPIView):
     queryset = Book.objects.all()
@@ -34,12 +35,48 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = ()
     serializer_class = UserSerializer
 
+class BookSearch(generics.GenericAPIView , generics.mixins.ListModelMixin):
+    serializer_class = BookSerializer
+    def get_queryset(self):
+        try:
+            publisher ,authors , data = self.get_data()
+        except ValueError and TypeError :
+            raise ParseError('uncorrect argument')
+        
+        books = Book.objects.filter(**data)
+        if authors:
+            books = books.filter(authors__pk__in = authors)
+        if publisher != -1:
+            books = books.filter(publisher__pk = publisher )
+        return books
+
+    def get_data(self):
+        data  = {}
+        data['title'] = self.request.POST.get('title' , None)
+        authors = self.request.POST.get('authors' , None)
+        publisher = int( self.request.POST.get('publisher' , -1) )
+        data['publication_date'] = self.request.POST.get('publication_data' , None)
+        data['num_pages'] = int( self.request.POST.get('num_pages' , -1) )
+        data['cost'] = int(self.request.POST.get('cost' , -1))
+        buf = data.copy()
+        
+        for key in buf :
+            if not data[key] or data[key] == -1:
+                del data[key]
+
+        if authors :
+            authors = [ int(ele) for ele in authors.split(',')]
+        return (publisher , authors , data)                                                                 
+
+    def post(self,*args,**kwargs):
+        return self.list(*args,**kwargs)
+
+
 class CreateVote(APIView):
     def post(self, request , pk):
         voted_by = request.user
 
         data = {'book':pk , 'voted_by':voted_by.pk}
-        print data
         serializer = VoteSerializer(data= data) 
         if serializer.is_valid():
             serializer.save()

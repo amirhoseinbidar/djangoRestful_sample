@@ -33,6 +33,7 @@ class Book(models.Model):
     publisher = models.ForeignKey(Publisher , on_delete=models.CASCADE )
     publication_date = models.DateField(null = True)
     num_pages = models.IntegerField(blank=True, null=True)
+    cost = models.IntegerField()
 
     class Meta:
         db_table = 'book'
@@ -40,6 +41,6 @@ class Book(models.Model):
         return self.title
 
 class Vote(models.Model):
-    book = models.ForeignKey(Book)
-    voted_by = models.ForeignKey(User)
+    book = models.ForeignKey(Book , on_delete=models.CASCADE)
+    voted_by = models.ForeignKey(User, on_delete=models.CASCADE)
     
