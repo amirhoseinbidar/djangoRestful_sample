@@ -16,7 +16,7 @@ root
 
 auth token :
 d93c0cd63d90e257bede80e1e5cc1d5060b803e0  
-(NOTE:Add an authorization header "Authorization:Token [your token]" when you want to access urls)
+(NOTE:Add an authorization header "Authorization:Token [your token]" when you want access urls)
 
 it is better use 'postman' but also you can use 'curl' command
 
