@@ -1,24 +1,12 @@
-for firing up the server installation ( if they are not installed on by default ,type these commands in terminal) :
-    python 2.7.x
-    pip
-then enter this commands:
+## requirements
+  *  python 2.7.x
+  *  pip
+then install djano and rest framework:
     pip install Django
     pip install djangorestframework
 
-then go to booksRest folder and enter :
+and runserver :
     python manage.py runserver
-
-
-if you dont want to install them in  all around OS
-first create virtualenv with command(Note: this requires internet) :
-    mkvirtualenv booksRest
-
-then active it using:
-    source booksRest/bin/acticate
-
-then install that requeries
-(Note:when you had closed the terminal and wanted to start project firstactive vitualenv then fireup server)
-
 
 admin username :
 root
